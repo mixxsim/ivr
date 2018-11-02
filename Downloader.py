@@ -18,21 +18,11 @@ def parseRecipe(num: int):
     productNames = [norm(i.text.replace('\xa0', '').replace('-', ':')).replace('или', '') for i in
                     list(productsPlace.findAll('span', {'class': ''}))]
     productNames = [i for i in productNames if i[0] != ':']
-    # productAmounts = [i[0].text.split('-')[-1] + ' ' + i[1].text for
-    #                  i in zip(productsPlace.findAll('td', {'class': 'padding_l qnt'}),
-    #                           productsPlace.findAll('td', {'class': 'padding_r'}))]
-    # print(productNames)
-    # print(productsPlace.findAll('td', {'class': 'padding_r'})[1].text)
-    # products = list(zip(productNames, productAmounts))
 
     recipe = [i.strip() + '\n' for i in recipe_place.findAll('table', {'class': 'step_images'})[0].text.split('\n') if
               i not in ['', ' ', '\r']]
     recipe = '\n'.join([f'{e+1}. ' + j for e, j in enumerate(recipe)])
     print(recipe)
-
-    # print(name, '\n--------')
-    # print(products, '\n--------')
-    # print(recipe)
 
     return (name, productNames, recipe)
 
@@ -50,7 +40,6 @@ def toInitial():
 def writeRecipe(i: int):
     try:
         recipe = parseRecipe(i)
-        # print(*recipe)
         out = open('recipes/{}.recipe'.format(i), 'w', encoding='utf-8')
         out.write(recipe[0] + '\n')
         out.write('--------\n')
